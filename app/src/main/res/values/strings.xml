@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Food Restaurant</string>
+    <string name="user_ph">Ingrese su usuario</string>
+    <string name="password_ph">Ingrese su contraseña</string>
+    <string name="loginbutton_ph">Iniciar sesion</string>
+</resources>
