@@ -17,7 +17,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/user"
+                android:id="@+id/userEditText"
                 android:layout_weight="1"
                 android:hint="@string/user_ph"/>
         </TableRow>
@@ -28,13 +28,14 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/editText"
+                android:id="@+id/PasswordEditText"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:hint="@string/password_ph"/>
         </TableRow>
     </TableLayout>
     <Button
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/loginbutton_ph"/>
