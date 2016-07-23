@@ -3,4 +3,7 @@
     <string name="user_ph">Ingrese su usuario</string>
     <string name="password_ph">Ingrese su contraseña</string>
     <string name="loginbutton_ph">Iniciar sesion</string>
+    <string name="login.textview.signup"><u>Registrar usuario</u></string>
+    <string name="toast.welcome">"Bienvenido %1$s la hora es %2$s"</string>
+    <string name="toast.loginerror">Datos Erroneos</string>
 </resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login.textview.signup"><u>Registrar usuario</u></string>
+    <string name="toast.loginerror">Datos Erroneos</string>
+</resources>
