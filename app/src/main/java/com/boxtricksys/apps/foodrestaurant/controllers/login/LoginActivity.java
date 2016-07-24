@@ -1,6 +1,7 @@
 package com.boxtricksys.apps.foodrestaurant.controllers.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boxtricksys.apps.foodrestaurant.R;
+import com.boxtricksys.apps.foodrestaurant.controllers.signup.RegisterUserActivity;
 
 import java.util.Date;
 
@@ -63,7 +65,8 @@ public class LoginActivity extends AppCompatActivity{
         textViewSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intentSigupIntent = new Intent(getApplicationContext(), RegisterUserActivity.class);
+                startActivity(intentSigupIntent);
             }
         });
     }

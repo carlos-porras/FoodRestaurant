@@ -40,8 +40,15 @@ public class User {
         return names;
     }
 
-    public void setNames(String nombre) {
-        this.names = nombre;
+    public void setNames(String names) {
+        this.names = names;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setPassword(String password) {
+        this.names = password;
     }
 
 

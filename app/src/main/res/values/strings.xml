@@ -8,4 +8,10 @@
     <string name="toast.loginerror">Datos Erroneos</string>
     <string name="title_activity_register_user">RegisterUserActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="signup.hint.username">Nombre de usuario</string>
+    <string name="signup.hint.names">Nombres</string>
+    <string name="signup.hint.password">Contraseña</string>
+    <string name="signup.hint.repassword">Confirmar contraseña</string>
+    <string name="signup_toast_errorsignup">Error al registrar usuario</string>
+    <string name="signup.toast.signupsuccess">Registrado correctamenete</string>
 </resources>
