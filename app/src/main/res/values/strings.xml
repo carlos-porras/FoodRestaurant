@@ -15,4 +15,5 @@
     <string name="signup_toast_errorsignup">Error al registrar usuario</string>
     <string name="signup.toast.signupsuccess">Registrado correctamenete</string>
     <string name="Login.error.exception">Error</string>
+    <string name="signup.toast.exists">El usuario ya esta registrado</string>
 </resources>

@@ -21,7 +21,7 @@ public class User {
     @DatabaseField(columnName = NAMES)
     private String names;
 
-    @DatabaseField(columnName = USERNAME)
+    @DatabaseField(columnName = USERNAME, unique=true)
     private String username;
 
     @DatabaseField(columnName = PASSWORD)
