@@ -32,8 +32,7 @@ public class RegisterUserActivityFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_register_user, container, false);
         initializeVisualComponents(rootView);
         initializeEvents();

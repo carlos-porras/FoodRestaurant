@@ -21,11 +21,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -35,12 +31,10 @@ public class LoginActivity extends AppCompatActivity{
     TextView textViewSignup;
     private DataHelper mDBHelper;
 
-    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        createPreferences();
         initComponents();
         initEvents();
     }
@@ -52,21 +46,12 @@ public class LoginActivity extends AppCompatActivity{
         textViewSignup = (TextView) findViewById(R.id.loginTextViewRegistrarUsuario);
     }
 
-    private  void createPreferences(){
-        sharedPreferences = getSharedPreferences("FoodRestaurantPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("KEY_USER", "test");
-        editor.putString("KEY_PASS", "123");
-        editor.apply();
-    }
-
     private void queryCredentials(String username, String password){
         Dao dao;
 
         try {
             dao = getHelper().getUserDao();
             QueryBuilder queryBuilder = dao.queryBuilder();
-            Log.v("Datos", username +" - "+ password);
             queryBuilder.setWhere(queryBuilder.where().eq(User.USERNAME.toLowerCase(), username.toLowerCase()).and().eq(User.PASSWORD, password));
             List <User> users = dao.query(queryBuilder.prepare());
             if (users.isEmpty()) {
