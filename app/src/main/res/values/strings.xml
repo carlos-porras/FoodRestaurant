@@ -4,7 +4,7 @@
     <string name="password_ph">Ingrese su contraseña</string>
     <string name="loginbutton_ph">Iniciar sesion</string>
     <string name="login.textview.signup"><u>Registrar usuario</u></string>
-    <string name="toast.welcome">"Bienvenido %1$s la hora es %2$s"</string>
+    <string name="toast.welcome">"Bienvenido %1$s"</string>
     <string name="toast.loginerror">Datos Erroneos</string>
     <string name="title_activity_register_user">RegisterUserActivity</string>
     <string name="action_settings">Settings</string>
@@ -14,4 +14,5 @@
     <string name="signup.hint.repassword">Confirmar contraseña</string>
     <string name="signup_toast_errorsignup">Error al registrar usuario</string>
     <string name="signup.toast.signupsuccess">Registrado correctamenete</string>
+    <string name="Login.error.exception">Error</string>
 </resources>

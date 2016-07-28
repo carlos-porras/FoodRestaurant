@@ -25,11 +25,11 @@ public class User {
     private String username;
 
     @DatabaseField(columnName = PASSWORD)
-    private String getPassword;
+    private String password;
 
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -37,7 +37,7 @@ public class User {
     }
 
     public String getNames() {
-        return names;
+        return this.names;
     }
 
     public void setNames(String names) {
@@ -47,8 +47,18 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getUsername(){
+        return this.username;
+    }
+
     public void setPassword(String password) {
-        this.names = password;
+        this.password = password;
+    }
+
+
+    public String getPassword() {
+        return this.password;
     }
 
 

@@ -61,9 +61,9 @@ public class RegisterUserActivityFragment extends Fragment {
         try {
             dao = getHelper().getUserDao();
             User user = new User();
-            user.setUsername(editTextUsername.toString());
-            user.setNames(editTextNames.toString());
-            user.setPassword(editTextPassword.toString());
+            user.setUsername(editTextUsername.getText().toString());
+            user.setNames(editTextNames.getText().toString());
+            user.setPassword(editTextPassword.getText().toString());
             dao.create(user);
             Toast.makeText(getContext(), R.string.signup_toast_signupsuccess, Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
