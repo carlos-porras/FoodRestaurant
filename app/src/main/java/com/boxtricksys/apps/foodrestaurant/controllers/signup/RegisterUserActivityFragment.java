@@ -1,10 +1,10 @@
 package com.boxtricksys.apps.foodrestaurant.controllers.signup;
 
-import android.database.SQLException;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +12,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.boxtricksys.apps.foodrestaurant.R;
-import com.boxtricksys.apps.foodrestaurant.models.User;
 import com.boxtricksys.apps.foodrestaurant.models.database.DataHelper;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-
 /**
  * A placeholder fragment containing a simple view.
  */
 public class RegisterUserActivityFragment extends Fragment {
 
     EditText editTextUsername;
-    EditText editTextNames;
+    EditText editTextFullname;
     EditText editTextPassword;
     FloatingActionButton fabSaveUser;
-    private DataHelper mDBHelper;
-
-    public RegisterUserActivityFragment() {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,50 +32,45 @@ public class RegisterUserActivityFragment extends Fragment {
         return rootView;
     }
 
-    private void initializeVisualComponents(View rootView){
-        editTextUsername = (EditText) rootView.findViewById(R.id.editTextUsername);
-        editTextNames = (EditText) rootView.findViewById(R.id.editTextNames);
-        editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
-        fabSaveUser = (FloatingActionButton) rootView.findViewById(R.id.fabSaveUser);
-    }
-
-    private void initializeEvents(){
+    private void initializeEvents() {
         fabSaveUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                saveUserInToDb();
+            public void onClick(View view) {
+                saveUserIntoDatabase();
             }
         });
     }
 
-    private void saveUserInToDb(){
-        Dao dao;
-        try {
-            dao = getHelper().getUserDao();
-            User user = new User();
-            user.setUsername(editTextUsername.getText().toString());
-            user.setNames(editTextNames.getText().toString());
-            user.setPassword(editTextPassword.getText().toString());
-            dao.create(user);
-            Toast.makeText(getContext(), R.string.signup_toast_signupsuccess, Toast.LENGTH_LONG).show();
-        } catch (SQLException e) {
-            Toast.makeText(getContext(), R.string.signup_toast_errorsignup, Toast.LENGTH_LONG).show();
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
+    private void saveUserIntoDatabase() {
+        //Se crea una instancia de la clase DataHelper, que es la gestora de la base de datos
+        DataHelper dataHelper = new DataHelper(getContext());
+        //Se crea una instancia de escritura de SQLiteDatabase que se encarga de los procesos CRUD
+        SQLiteDatabase sqLiteDatabase = dataHelper.getWritableDatabase();
+        //Contenedor de datos de SQLite para guardar datos en columnas
+        ContentValues newUser = new ContentValues();
+        newUser.put(DataHelper.USER_USERNAME_COLUMN, editTextUsername.getText().toString());
+        newUser.put(DataHelper.USER_PASSWORD_COLUMN, editTextPassword.getText().toString());
+        newUser.put(DataHelper.USER_FULLNAME_COLUMN, editTextFullname.getText().toString());
+        //Uso del método insert del API de android para crear un nuevo usuario basado en los ContentValues
+        long  userId = sqLiteDatabase.insert(DataHelper.USERS_TABLE, null, newUser);
+        validateUserCreated(userId);
+        //Se cierra la instancia que se usó
+        sqLiteDatabase.close();
+        getActivity().finish();
     }
-    private DataHelper getHelper() {
-        if (mDBHelper == null) {
-            mDBHelper = OpenHelperManager.getHelper(getContext(), DataHelper.class);
+
+    private void validateUserCreated(long userId) {
+        String message = getString(R.string.signup_toast_signupsuccess);
+        if(userId == -1){
+            message = getString(R.string.signup_toast_errorsignup);
         }
-        return mDBHelper;
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mDBHelper != null) {
-            OpenHelperManager.releaseHelper();
-            mDBHelper = null;
-        }
+
+    private void initializeVisualComponents(View rootView) {
+        editTextUsername = (EditText) rootView.findViewById(R.id.editTextUsername);
+        editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
+        editTextFullname = (EditText) rootView.findViewById(R.id.editTextFullname);
+        fabSaveUser = (FloatingActionButton) rootView.findViewById(R.id.fabSaveUser);
     }
 }

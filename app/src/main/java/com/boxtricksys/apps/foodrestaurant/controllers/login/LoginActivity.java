@@ -3,6 +3,8 @@ package com.boxtricksys.apps.foodrestaurant.controllers.login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,18 +16,13 @@ import android.widget.Toast;
 
 import com.boxtricksys.apps.foodrestaurant.R;
 import com.boxtricksys.apps.foodrestaurant.controllers.signup.RegisterUserActivity;
-import com.boxtricksys.apps.foodrestaurant.models.User;
 import com.boxtricksys.apps.foodrestaurant.models.database.DataHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -40,7 +37,6 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        createPreferences();
         initComponents();
         initEvents();
     }
@@ -52,40 +48,41 @@ public class LoginActivity extends AppCompatActivity{
         textViewSignup = (TextView) findViewById(R.id.loginTextViewRegistrarUsuario);
     }
 
-    private  void createPreferences(){
-        sharedPreferences = getSharedPreferences("FoodRestaurantPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("KEY_USER", "test");
-        editor.putString("KEY_PASS", "123");
-        editor.apply();
-    }
+    private void validateCredentials(String username, String password){
+        DataHelper dataHelper = new DataHelper(getApplicationContext());
+        SQLiteDatabase sqliteDatabase = dataHelper.getReadableDatabase();
 
-    private void queryCredentials(String username, String password){
-        Dao dao;
+        //Columnas a traer
+        String[] columnsToBring = new String[]{DataHelper.USER_FULLNAME_COLUMN};
+        //Argumentos del WHERE
+        String[] whereArgs = new String[]{username, password};
+        //Where
+        String where = DataHelper.USER_USERNAME_COLUMN + " = ? AND " + DataHelper.USER_PASSWORD_COLUMN + " = ?";
+        //Cursor que guarda el query
+        Cursor cursor = sqliteDatabase.query(DataHelper.USERS_TABLE, columnsToBring , where, whereArgs, null, null, null);
 
-        try {
-            dao = getHelper().getUserDao();
-            QueryBuilder queryBuilder = dao.queryBuilder();
-            Log.v("Datos", username +" - "+ password);
-            queryBuilder.setWhere(queryBuilder.where().eq(User.USERNAME.toLowerCase(), username.toLowerCase()).and().eq(User.PASSWORD, password));
-            List <User> users = dao.query(queryBuilder.prepare());
-            if (users.isEmpty()) {
-                Toast.makeText(getApplicationContext(), R.string.toast_loginerror, Toast.LENGTH_LONG).show();
-            } else {
-                String welcomeUser = String.format(getString(R.string.toast_welcome), users.get(0).getNames());
-                Toast.makeText(getApplicationContext(), welcomeUser, Toast.LENGTH_LONG).show();
-            }
-        } catch (SQLException e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        if (cursor.moveToFirst()) {
+            String completeName = cursor.getString(cursor.getColumnIndex(DataHelper.USER_FULLNAME_COLUMN));
+            String welcome = String.format(getString(R.string.toast_welcome), completeName);
+            Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_loginerror), Toast.LENGTH_LONG).show();
         }
+
+        //Se cierra el cursor de los datos
+        cursor.close();
+        //Se cierra la conexión de la BD
+        sqliteDatabase.close();
     }
+
+
     private void initEvents(){
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = editTextUser.getText().toString();
                 String password = editTextPassword.getText().toString();
-                queryCredentials(username, password);
+                validateCredentials(username,password);
             }
         });
 
@@ -96,13 +93,6 @@ public class LoginActivity extends AppCompatActivity{
                 startActivity(intentSigupIntent);
             }
         });
-    }
-
-    private DataHelper getHelper() {
-        if (mDBHelper == null) {
-            mDBHelper = OpenHelperManager.getHelper(getApplicationContext(), DataHelper.class);
-        }
-        return mDBHelper;
     }
 
 }
