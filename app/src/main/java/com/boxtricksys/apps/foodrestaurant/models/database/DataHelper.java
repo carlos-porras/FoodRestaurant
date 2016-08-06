@@ -16,11 +16,27 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String USER_PASSWORD_COLUMN = "password";
     public static final String USER_FULLNAME_COLUMN = "fullname";
 
+    //Restaurants
+    public static final String RESTAURANTS_TABLE = "restaurants";
+    public static final String RESTAURANT_ID_COLUMN = "_id";
+    public static final String RESTAURANT_SPECIALITY_COLUMN = "speciality";
+    public static final String RESTAURANT_NAME_COLUMN = "name";
+    public static final String RESTAURANT_LATITUDE_COLUMN = "latitude";
+    public static final String RESTAURANT_LONGITUDE_COLUMN = "longitude";
+
     private String userTable = "CREATE TABLE "+USERS_TABLE+"(" +
             USER_ID_COLUMN+" INTEGER PRIMARY KEY AUTOINCREMENT," +
             USER_USERNAME_COLUMN+" VARCHAR(25) NOT NULL," +
             USER_PASSWORD_COLUMN+" VARCHAR(30) NOT NULL," +
             USER_FULLNAME_COLUMN+" VARCHAR(50) NOT NULL" +
+            ")";
+
+    private String restaurantsTable = "CREATE TABLE "+RESTAURANTS_TABLE+"("+
+            RESTAURANT_ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            RESTAURANT_NAME_COLUMN + " VARCHAR(30) NOT NULL," +
+            RESTAURANT_SPECIALITY_COLUMN + " VARCHAR(30) NOT NULL," +
+            RESTAURANT_LONGITUDE_COLUMN +" DECIMAL(11,8) NOT NULL," +
+            RESTAURANT_LATITUDE_COLUMN + " DECIMAL(10,8) NOT NULL" +
             ")";
 
 
@@ -30,7 +46,9 @@ public class DataHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
         sqLiteDatabase.execSQL(userTable);
+        sqLiteDatabase.execSQL(restaurantsTable);
     }
 
     @Override

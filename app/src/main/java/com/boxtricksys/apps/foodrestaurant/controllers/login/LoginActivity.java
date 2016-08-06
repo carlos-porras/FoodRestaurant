@@ -1,10 +1,13 @@
 package com.boxtricksys.apps.foodrestaurant.controllers.login;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,13 +19,8 @@ import android.widget.Toast;
 
 import com.boxtricksys.apps.foodrestaurant.R;
 import com.boxtricksys.apps.foodrestaurant.controllers.signup.RegisterUserActivity;
+import com.boxtricksys.apps.foodrestaurant.models.contentProviders.RestaurantsContentProvider;
 import com.boxtricksys.apps.foodrestaurant.models.database.DataHelper;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.QueryBuilder;
-
-import java.sql.SQLException;
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -65,6 +63,7 @@ public class LoginActivity extends AppCompatActivity{
             String completeName = cursor.getString(cursor.getColumnIndex(DataHelper.USER_FULLNAME_COLUMN));
             String welcome = String.format(getString(R.string.toast_welcome), completeName);
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+            insertRestaurantsDummy();
         }else{
             Toast.makeText(getApplicationContext(), getString(R.string.toast_loginerror), Toast.LENGTH_LONG).show();
         }
@@ -73,6 +72,21 @@ public class LoginActivity extends AppCompatActivity{
         cursor.close();
         //Se cierra la conexión de la BD
         sqliteDatabase.close();
+    }
+
+    private void insertRestaurantsDummy() {
+        ContentResolver contentResolver = getContentResolver();
+        for(int i = 0; i < 10; i++){
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(RestaurantsContentProvider.Restaurants.NAME, "Restaurante "+i);
+            contentValues.put(RestaurantsContentProvider.Restaurants.SPECIALITY, "Sushi "+i);
+            contentValues.put(RestaurantsContentProvider.Restaurants.LATITUDE, Math.random() * 10);
+            contentValues.put(RestaurantsContentProvider.Restaurants.LONGITUDE, Math.random() * -74);
+            Uri newRestaurantUri = contentResolver.insert(RestaurantsContentProvider.CONTENT_URI, contentValues);
+            if(newRestaurantUri != null){
+                Log.i("RESTAURANTS PROVIDER", newRestaurantUri.toString());
+            }
+        }
     }
 
 

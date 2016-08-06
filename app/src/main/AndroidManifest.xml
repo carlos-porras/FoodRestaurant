@@ -24,6 +24,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.boxtricksys.apps.foodrestaurant.controllers.login.LoginActivity" />
         </activity>
+
+        <provider
+            android:authorities="com.boxtricksys.apps.foodrestaurant.models.contentProviders.restaurants"
+            android:name=".models.contentProviders.RestaurantsContentProvider" />
     </application>
 
 </manifest>
