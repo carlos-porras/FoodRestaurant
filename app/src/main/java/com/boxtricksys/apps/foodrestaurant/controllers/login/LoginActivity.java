@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boxtricksys.apps.foodrestaurant.R;
+import com.boxtricksys.apps.foodrestaurant.controllers.home.RestaurantsActivity;
 import com.boxtricksys.apps.foodrestaurant.controllers.signup.RegisterUserActivity;
 import com.boxtricksys.apps.foodrestaurant.models.contentProviders.RestaurantsContentProvider;
 import com.boxtricksys.apps.foodrestaurant.models.database.DataHelper;
@@ -63,7 +64,9 @@ public class LoginActivity extends AppCompatActivity{
             String completeName = cursor.getString(cursor.getColumnIndex(DataHelper.USER_FULLNAME_COLUMN));
             String welcome = String.format(getString(R.string.toast_welcome), completeName);
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-            insertRestaurantsDummy();
+            //insertRestaurantsDummy();
+            Intent intent = new Intent(LoginActivity.this, RestaurantsActivity.class);
+            startActivity(intent);
         }else{
             Toast.makeText(getApplicationContext(), getString(R.string.toast_loginerror), Toast.LENGTH_LONG).show();
         }

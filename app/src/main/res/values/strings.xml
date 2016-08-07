@@ -15,4 +15,5 @@
     <string name="signup_toast_errorsignup">Error al registrar usuario</string>
     <string name="signup.toast.signupsuccess">Registrado correctamenete</string>
     <string name="Login.error.exception">Error</string>
+    <string name="title_activity_restaurants">Restaurants</string>
 </resources>

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.boxtricksys.apps.foodrestaurant">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,8 +29,13 @@
         </activity>
 
         <provider
-            android:authorities="com.boxtricksys.apps.foodrestaurant.models.contentProviders.restaurants"
-            android:name=".models.contentProviders.RestaurantsContentProvider" />
+            android:name=".models.contentProviders.RestaurantsContentProvider"
+            android:authorities="com.boxtricksys.apps.foodrestaurant.models.contentProviders.restaurants" />
+
+        <activity
+            android:name=".controllers.home.RestaurantsActivity"
+            android:label="@string/title_activity_restaurants"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
