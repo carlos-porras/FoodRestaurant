@@ -36,6 +36,8 @@
             android:name=".controllers.home.RestaurantsActivity"
             android:label="@string/title_activity_restaurants"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service android:name=".services.RequestService"/>
     </application>
 
 </manifest>
