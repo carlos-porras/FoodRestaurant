@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.boxtricksys.apps.foodrestaurant.R;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 public class RestaurantsActivityFragment extends Fragment {
 
+    ListView listViewRestaurants;
     private List<Restaurant> restaurants;
     public RestaurantsActivityFragment() {
     }
@@ -35,8 +37,10 @@ public class RestaurantsActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_restaurants, container, false);
+        listViewRestaurants = (ListView) rootView.findViewById(R.id.listViewRestaurants);
         callRestaurantsEndpoint();
-        return inflater.inflate(R.layout.fragment_restaurants, container, false);
+        return rootView;
     }
 
     private void callRestaurantsEndpoint(){
