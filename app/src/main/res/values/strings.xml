@@ -16,4 +16,5 @@
     <string name="signup.toast.signupsuccess">Registrado correctamenete</string>
     <string name="Login.error.exception">Error</string>
     <string name="title_activity_restaurants">Restaurants</string>
+    <string name="toast_string_error_get_info_restaurant">Error al obtener la información del restaurante</string>
 </resources>
