@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.boxtricksys.apps.foodrestaurant.R;
 import com.boxtricksys.apps.foodrestaurant.api.Requests;
 import com.boxtricksys.apps.foodrestaurant.api.RestConstants;
+import com.boxtricksys.apps.foodrestaurant.controllers.home.adapters.RestaurantsAdapter;
 import com.boxtricksys.apps.foodrestaurant.models.Restaurant;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -61,6 +62,8 @@ public class RestaurantsActivityFragment extends Fragment {
                 JSONArray JsonArrayRestaurants = jsonObject.getJSONArray("data");
                 Type typeTokenListRestaurants = new TypeToken<List<Restaurant>> () {}.getType();
                 restaurants = new Gson().fromJson(JsonArrayRestaurants.toString(), typeTokenListRestaurants);
+                RestaurantsAdapter restaurantsAdapter = new RestaurantsAdapter(getActivity().getApplicationContext(), restaurants);
+                listViewRestaurants.setAdapter(restaurantsAdapter);
             }else{
                 Toast.makeText(getActivity().getApplicationContext(), R.string.toast_string_error_get_info_restaurant, Toast.LENGTH_LONG).show();
             }
