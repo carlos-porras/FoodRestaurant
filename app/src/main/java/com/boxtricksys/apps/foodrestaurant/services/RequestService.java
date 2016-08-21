@@ -24,6 +24,8 @@ public class RequestService extends IntentService{
 
     public  static final String ENDPOINT_KEY = "endpoint_key";
     public  static final String REQUEST_METHOD_KEY = "request_method_key";
+    public  static final String ACTION_SEND_RESTAURANTS = "com.boxtricksys.apps.foodrestaurant.SEND_RESTAURANTS";
+    public  static final String RESTAURANT_KEY = "restaurant_key";
 
     public RequestService() {
         super("RequestService");
@@ -65,11 +67,19 @@ public class RequestService extends IntentService{
 
             String response = stringBuilder.toString();
 
+            sendResponse(response);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void sendResponse(String response) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SEND_RESTAURANTS);
+        intent.putExtra(RESTAURANT_KEY, response);
+        sendBroadcast(intent);
     }
 }

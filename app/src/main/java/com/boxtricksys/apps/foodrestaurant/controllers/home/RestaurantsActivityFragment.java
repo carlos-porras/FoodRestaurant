@@ -1,5 +1,8 @@
 package com.boxtricksys.apps.foodrestaurant.controllers.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,7 @@ import com.boxtricksys.apps.foodrestaurant.api.Requests;
 import com.boxtricksys.apps.foodrestaurant.api.RestConstants;
 import com.boxtricksys.apps.foodrestaurant.controllers.home.adapters.RestaurantsAdapter;
 import com.boxtricksys.apps.foodrestaurant.models.Restaurant;
+import com.boxtricksys.apps.foodrestaurant.services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,8 +44,16 @@ public class RestaurantsActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_restaurants, container, false);
         listViewRestaurants = (ListView) rootView.findViewById(R.id.listViewRestaurants);
-        callRestaurantsEndpoint();
+        //callRestaurantsEndpoint(); // ya no se utiliza, solo  para (para asynctasks)
+        callResquestService();
         return rootView;
+    }
+
+    private void callResquestService() {
+        Intent intent = new Intent(getActivity().getApplicationContext(), RequestService.class);
+        intent.putExtra(RequestService.ENDPOINT_KEY, RestConstants.RESTAURANTS_ENDPOINT);
+        intent.putExtra(RequestService.REQUEST_METHOD_KEY, RestConstants.POST_REQUEST);
+        getActivity().startService(intent);
     }
 
     private void callRestaurantsEndpoint(){
@@ -69,6 +81,26 @@ public class RestaurantsActivityFragment extends Fragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public class RequestReceiver extends BroadcastReceiver{
+
+        public RequestReceiver(){
+            super();
+        }
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(RequestService.ACTION_SEND_RESTAURANTS)){
+                try {
+                    String response = intent.getStringExtra(RequestService.RESTAURANT_KEY);
+                    JSONObject jsonObject = new JSONObject(response);
+                    validateJsonResponse(jsonObject);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
