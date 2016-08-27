@@ -3,6 +3,7 @@ package com.boxtricksys.apps.foodrestaurant.controllers.home;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,8 +46,23 @@ public class RestaurantsActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_restaurants, container, false);
         listViewRestaurants = (ListView) rootView.findViewById(R.id.listViewRestaurants);
         //callRestaurantsEndpoint(); // ya no se utiliza, solo  para (para asynctasks)
+        registerBroadcastFilter();
         callResquestService();
         return rootView;
+    }
+
+    /**
+     * Con este método se registra el BroadcastReceiver que creamos
+     * #RequestReceiver, primero se crea el intent filter
+     * luego se le añade la acción de la cual estará pendiente el RequestReceiver (Broadcast)
+     * y por último se registra el Broadcast en la actividad
+     * */
+    private void registerBroadcastFilter() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(RequestService.ACTION_SEND_RESTAURANTS);
+
+        RequestReceiver requestReceiver = new RequestReceiver();
+        getActivity().registerReceiver(requestReceiver, intentFilter);
     }
 
     private void callResquestService() {
