@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.support.annotation.Nullable;
 
 import com.boxtricksys.apps.foodrestaurant.models.database.DataHelper;
 
@@ -54,7 +53,7 @@ public class RestaurantsContentProvider extends ContentProvider {
             return true;
         }
 
-        @Nullable
+
         @Override
         public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
@@ -73,7 +72,7 @@ public class RestaurantsContentProvider extends ContentProvider {
             return cursor;
         }
 
-        @Nullable
+
         @Override
         public String getType(Uri uri) {
             int match = uriMatcher.match(uri);
@@ -88,7 +87,7 @@ public class RestaurantsContentProvider extends ContentProvider {
             }
         }
 
-        @Nullable
+
         @Override
         public Uri insert(Uri uri, ContentValues contentValues) {
 
