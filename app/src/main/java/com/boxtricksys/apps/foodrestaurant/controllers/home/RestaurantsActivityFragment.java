@@ -1,5 +1,7 @@
 package com.boxtricksys.apps.foodrestaurant.controllers.home;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,9 +48,20 @@ public class RestaurantsActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_restaurants, container, false);
         listViewRestaurants = (ListView) rootView.findViewById(R.id.listViewRestaurants);
         //callRestaurantsEndpoint(); // ya no se utiliza, solo  para (para asynctasks)
+        registerAlarm();
         registerBroadcastFilter();
         callResquestService();
         return rootView;
+    }
+
+    private void registerAlarm() {
+        Intent intent = new Intent(getActivity().getApplicationContext(), RequestService.class);
+        intent.putExtra(RequestService.ENDPOINT_KEY, RestConstants.RESTAURANTS_ENDPOINT);
+        intent.putExtra(RequestService.REQUEST_METHOD_KEY, RestConstants.POST_REQUEST);
+
+        PendingIntent pintent = PendingIntent.getService(getActivity().getApplicationContext(), 44544, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(),5000, pintent);
     }
 
     /**
@@ -109,6 +122,7 @@ public class RestaurantsActivityFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equalsIgnoreCase(RequestService.ACTION_SEND_RESTAURANTS)){
                 try {
+                    Toast.makeText(getActivity().getApplicationContext(), "Vengo del servicio", Toast.LENGTH_SHORT).show();
                     String response = intent.getStringExtra(RequestService.RESTAURANT_KEY);
                     JSONObject jsonObject = new JSONObject(response);
                     validateJsonResponse(jsonObject);

@@ -38,12 +38,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service android:name=".services.RequestService"/>
-
-        <receiver android:name=".controllers.home.RestaurantsActivityFragment$RequestReceiver">
-            <intent-filter>
-                <action android:name="com.boxtricksys.apps.foodrestaurant.SEND_RESTAURANTS"></action>
-            </intent-filter>
-        </receiver>
+        
     </application>
 
 </manifest>
