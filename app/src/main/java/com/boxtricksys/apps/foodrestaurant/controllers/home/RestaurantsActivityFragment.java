@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,8 @@ import com.boxtricksys.apps.foodrestaurant.R;
 import com.boxtricksys.apps.foodrestaurant.api.Requests;
 import com.boxtricksys.apps.foodrestaurant.api.RestConstants;
 import com.boxtricksys.apps.foodrestaurant.controllers.home.adapters.RestaurantsAdapter;
-import com.boxtricksys.apps.foodrestaurant.dataAccess.Restaurants;
+import com.boxtricksys.apps.foodrestaurant.dataAccess.RestaurantsDataAccess;
 import com.boxtricksys.apps.foodrestaurant.models.Restaurant;
-import com.boxtricksys.apps.foodrestaurant.models.contentProviders.RestaurantsContentProvider;
 import com.boxtricksys.apps.foodrestaurant.services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,7 +29,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,8 +104,7 @@ public class RestaurantsActivityFragment extends Fragment {
                 restaurants = new Gson().fromJson(JsonArrayRestaurants.toString(), typeTokenListRestaurants);
                 RestaurantsAdapter restaurantsAdapter = new RestaurantsAdapter(getActivity().getApplicationContext(), restaurants);
                 listViewRestaurants.setAdapter(restaurantsAdapter);
-                Restaurants dbrestaurants = new Restaurants();
-                dbrestaurants.registrarUsuarios(restaurants, getActivity().getApplicationContext());
+                RestaurantsDataAccess.getInstance().registerRestaurants(restaurants, getActivity().getApplicationContext());
             }else{
                 Toast.makeText(getActivity().getApplicationContext(), R.string.toast_string_error_get_info_restaurant, Toast.LENGTH_LONG).show();
             }

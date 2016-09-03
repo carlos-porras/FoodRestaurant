@@ -16,7 +16,7 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String USER_PASSWORD_COLUMN = "password";
     public static final String USER_FULLNAME_COLUMN = "fullname";
 
-    //Restaurants
+    //RestaurantsDataAccess
     public static final String RESTAURANTS_TABLE = "restaurants";
     public static final String RESTAURANT_ID_COLUMN = "_id";
     public static final String RESTAURANT_SPECIALITY_COLUMN = "speciality";
@@ -25,7 +25,7 @@ public class DataHelper extends SQLiteOpenHelper {
     public static final String RESTAURANT_LONGITUDE_COLUMN = "longitude";
 
     private String userTable = "CREATE TABLE "+USERS_TABLE+"(" +
-            USER_ID_COLUMN+" INTEGER PRIMARY KEY AUTOINCREMENT," +
+            USER_ID_COLUMN+" INTEGER PRIMARY KEY," +
             USER_USERNAME_COLUMN+" VARCHAR(25) NOT NULL," +
             USER_PASSWORD_COLUMN+" VARCHAR(30) NOT NULL," +
             USER_FULLNAME_COLUMN+" VARCHAR(50) NOT NULL" +
